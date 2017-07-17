@@ -1,0 +1,10 @@
+---
+# If docker has existed, skip installation.
+- name: Test if docker is existed
+  stat:
+    path: /usr/bin/docker
+  register: docker_bin_file
+
+- name: Install docker for ubuntu
+  include: install_docker.yml
+  when: not docker_bin_file.stat.exists

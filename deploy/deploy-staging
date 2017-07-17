@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+echo "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i staging staging.yml"
+if ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i staging staging.yml ; then
+    echo "Deploy by `whoami`: blog staging deploy succeeded"
+else
+    echo "Deploy by `whoami`: blog staging deploy failed"
+fi
+
+echo "Deploy at `date`"
