@@ -3,9 +3,12 @@
 import os
 from importlib import import_module
 
+import six
+from exceptions import ImproperlyConfigured
+
 
 class URLPattern(object):
-    def __init__(self, regex, view, kwargs, name):
+    def __init__(self, regex, view, name, kwargs):
         self.regex = regex
         self.view = view
         self.kwargs = kwargs
@@ -15,17 +18,23 @@ class URLPattern(object):
 class URLIncludePatterns(object):
     def __init__(self, urlconf_module):
         self.patterns = []
-        if isinstance(urlconf_module, basestring):
-            urlconf_module = import_module(urlconf_module)
+        if isinstance(urlconf_module, six.string_types):
+            try:
+                urlconf_module = import_module(urlconf_module)
+            except ImportError:
+                raise ImproperlyConfigured('Urls is not configured correctly')
 
-        self.patterns = getattr(urlconf_module, 'urlpatterns', urlconf_module)
-        if not filter(lambda pattern: isinstance(pattern, URLPattern), self.patterns):
-            raise Exception
+        self.patterns = getattr(urlconf_module, 'urlpatterns')
+        if filter(lambda pattern: isinstance(pattern, URLIncludePatterns), self.patterns):
+            raise ImproperlyConfigured(
+                'Using included patterns in an included URLconf is not allowed.')
 
 
 class RegexURLResolver(object):
     def __init__(self, regex, include, kwargs):
         self.patterns = include.patterns
+        self.regex = regex
+        self.kwargs = kwargs
         for pattern in self.patterns:
             if pattern.regex.startswith('/'):
                 pattern.regex = os.path.join(regex, pattern.regex.lstrip('/'))
@@ -33,14 +42,13 @@ class RegexURLResolver(object):
                 pattern.regex = os.path.join(regex, pattern.regex)
 
 
-def url(regex, view, kwargs=None, name=None):
+def url(regex, view, name=None, kwargs=None):
     # include
     if isinstance(view, URLIncludePatterns):
         return RegexURLResolver(regex, view, kwargs)
     # url
     elif callable(view):
-        return URLPattern(regex, view, kwargs, name)
-    # 防守编程
+        return URLPattern(regex, view, name, kwargs)
     else:
         raise TypeError('view must be a callable or a list/tuple in the case of include().')
 
@@ -51,9 +59,12 @@ include = URLIncludePatterns
 def auto_register_url(app):
     """
     自动注册url映射
-    :return:
     """
-    urlconf_module = import_module(app.config['ROOT_URLCONF'])
+    try:
+        urlconf_module = import_module(app.config['ROOT_URLCONF'])
+    except (KeyError, ImportError):
+        raise ImproperlyConfigured('ROOT_URLCONF is not configured correctly')
+
     url_patterns = getattr(urlconf_module, 'urlpatterns')
     for url_pattern in url_patterns:
         if isinstance(url_pattern, URLPattern):

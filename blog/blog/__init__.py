@@ -1,21 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import os
-import sys
 from flask import Flask
 
-from config import config
+from url_resolvers.resolvers import auto_register_url
+
+import settings
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-sys.path.append(BASE_DIR)
-sys.path.extend([os.path.join(BASE_DIR, child)
-                 for child in os.listdir(BASE_DIR) if child[0]!="."])
-
 app = Flask(__name__)
-app.config.update(config)
+app.config.from_object(settings)
 
-
-from url_resolve.url import auto_register_url
+# 自动注册urls路径
 auto_register_url(app)

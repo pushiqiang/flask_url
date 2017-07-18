@@ -3,7 +3,4 @@
 配置文件
 """
 
-
-config = {
-    'ROOT_URLCONF': 'blog.urls',
-}
+ROOT_URLCONF = 'blog.urls'

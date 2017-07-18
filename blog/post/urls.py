@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from url_resolve.url import url, include
+from url_resolvers.resolvers import url, include
 
 from .views import index
 
