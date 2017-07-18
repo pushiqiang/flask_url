@@ -2,6 +2,6 @@
 
 # Django-Style URL Patterns for Django Flask
 
-post为应用app
+代码在blog下
 
 eg: www.foredge.cn/post/index/
