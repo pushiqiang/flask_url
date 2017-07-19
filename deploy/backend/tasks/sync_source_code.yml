@@ -14,8 +14,7 @@
   synchronize: src=../docker dest=/data/blog/src delete=yes rsync_opts=--exclude=.DS_Store
   register: docker_files
 
-- set_fact:
-    is_docker_file_changed: "{{ docker_files.changed or media_conf_file.changed }}"
+
 
 #########################################
 # 上传并处理 source code

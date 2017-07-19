@@ -21,17 +21,6 @@
     - {role: docker.ubuntu}
 
 
-- hosts: all
-  strategy: free
-  tags: netdata
-  remote_user: root
-  become: yes
-  vars:
-    - web_port: 19999
-  roles:
-    - {role: netdata, stage: staging}
-
-
 - hosts: redis
   tags: redis
   remote_user: root
