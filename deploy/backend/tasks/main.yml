@@ -1,6 +1,0 @@
----
-- name: Synchronize source code and docker config
-  include: sync_source_code.yml
-
-- name: Build backend service
-  include: build_backend_service.yml
