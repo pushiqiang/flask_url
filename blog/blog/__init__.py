@@ -3,7 +3,7 @@
 import os
 from flask import Flask
 
-from url_resolvers.resolvers import auto_register_url
+from url_resolvers.resolvers import auto_register_urls
 
 import settings
 
@@ -14,4 +14,4 @@ app = Flask(__name__)
 app.config.from_object(settings)
 
 # 自动注册urls路径
-auto_register_url(app)
+auto_register_urls(app)
