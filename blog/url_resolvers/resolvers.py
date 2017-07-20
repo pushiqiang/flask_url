@@ -56,7 +56,7 @@ def url(regex, view, name=None, kwargs=None):
 include = URLIncludePatterns
 
 
-def auto_register_url(app):
+def auto_register_urls(app):
     """
     自动注册url映射
     """
