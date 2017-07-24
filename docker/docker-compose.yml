@@ -1,0 +1,31 @@
+version: '2'
+# 这个docker环境是给开发者在自己的电脑上部署的
+# 你可以用 ./start_develop.sh 来自动化创建环境
+services:
+
+  mysql:
+    restart: always
+    build: ./mysql/
+    ports:
+      - "127.0.0.1:3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=devpwd
+      - MYSQL_DATABASE=flask
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=devpwd
+    volumes:
+      - /data/blog/mysql:/var/lib/mysql
+
+  blog_backend:
+    restart: always
+    build: ./flask
+    depends_on:
+      - mysql
+    links:
+      - mysql:db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../blog:/opt/blog
+      - /data/blog/www/static:/opt/static
+    command: uwsgi --ini uwsgi.ini
