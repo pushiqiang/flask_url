@@ -4,4 +4,3 @@
 
 代码在blog下
 
-eg: www.foredge.cn/post/index/
