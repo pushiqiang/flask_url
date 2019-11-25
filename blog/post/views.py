@@ -8,3 +8,4 @@ def index():
 
 def upload():
     print(request.method)
+    return "Request method: %s" % request.method

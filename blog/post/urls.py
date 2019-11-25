@@ -7,5 +7,5 @@ from .views import index, upload
 
 urlpatterns = [
     url('index/', index, name='index'),
-    url('upload/', upload, name='index', methods=['POST']),
+    url('upload/', upload, name='upload', methods=['POST']),
 ]
