@@ -8,7 +8,7 @@ from exceptions import ImproperlyConfigured
 
 
 class URLPattern(object):
-    def __init__(self, regex, view, name, kwargs):
+    def __init__(self, regex, view, name, **kwargs):
         self.regex = regex
         self.view = view
         self.kwargs = kwargs
@@ -31,7 +31,7 @@ class URLIncludePatterns(object):
 
 
 class RegexURLResolver(object):
-    def __init__(self, regex, include, kwargs):
+    def __init__(self, regex, include, **kwargs):
         self.patterns = include.patterns
         self.regex = regex
         self.kwargs = kwargs
@@ -42,13 +42,13 @@ class RegexURLResolver(object):
                 pattern.regex = os.path.join(regex, pattern.regex)
 
 
-def url(regex, view, name=None, kwargs=None):
+def url(regex, view, name=None, **kwargs):
     # include
     if isinstance(view, URLIncludePatterns):
-        return RegexURLResolver(regex, view, kwargs)
+        return RegexURLResolver(regex, view, **kwargs)
     # url
     elif callable(view):
-        return URLPattern(regex, view, name, kwargs)
+        return URLPattern(regex, view, name, **kwargs)
     else:
         raise TypeError('view must be a callable or a list/tuple in the case of include().')
 
@@ -71,12 +71,14 @@ def auto_register_urls(app):
             app.add_url_rule(
                 url_pattern.regex,
                 endpoint=url_pattern.name,
-                view_func=url_pattern.view
+                view_func=url_pattern.view,
+                **url_pattern.kwargs
             )
         else:
             for pattern in url_pattern.patterns:
                 app.add_url_rule(
                     pattern.regex,
                     endpoint=pattern.name,
-                    view_func=pattern.view
+                    view_func=pattern.view,
+                    **pattern.kwargs
                 )
