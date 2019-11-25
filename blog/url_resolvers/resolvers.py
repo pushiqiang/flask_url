@@ -71,12 +71,14 @@ def auto_register_urls(app):
             app.add_url_rule(
                 url_pattern.regex,
                 endpoint=url_pattern.name,
-                view_func=url_pattern.view
+                view_func=url_pattern.view,
+                **url_pattern.kwargs
             )
         else:
             for pattern in url_pattern.patterns:
                 app.add_url_rule(
                     pattern.regex,
                     endpoint=pattern.name,
-                    view_func=pattern.view
+                    view_func=pattern.view,
+                    **url_pattern.kwargs
                 )

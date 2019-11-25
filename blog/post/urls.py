@@ -2,9 +2,10 @@
 
 from url_resolvers.resolvers import url, include
 
-from .views import index
+from .views import index, upload
 
 
 urlpatterns = [
     url('index/', index, name='index'),
+    url('upload/', upload, name='index', methods=['POST']),
 ]

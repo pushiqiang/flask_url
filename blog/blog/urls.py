@@ -6,6 +6,6 @@ from views import home
 
 
 urlpatterns = [
-    url('/home/', home, ),
+    url('/home/', home),
     url('/post/', include('post.urls')),
 ]
