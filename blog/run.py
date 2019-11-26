@@ -1,4 +1,4 @@
-from blog import app
+from blog.app import runserver
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    runserver()
