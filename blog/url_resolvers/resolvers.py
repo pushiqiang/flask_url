@@ -25,7 +25,7 @@ class URLIncludePatterns(object):
                 raise ImproperlyConfigured('Urls is not configured correctly')
 
         self.patterns = getattr(urlconf_module, 'urlpatterns')
-        if filter(lambda pattern: isinstance(pattern, URLIncludePatterns), self.patterns):
+        if list(filter(lambda pattern: isinstance(pattern, URLIncludePatterns), self.patterns)):
             raise ImproperlyConfigured(
                 'Using included patterns in an included URLconf is not allowed.')
 
