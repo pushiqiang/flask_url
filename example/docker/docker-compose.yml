@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+
+  blog_backend:
+    restart: always
+    build: ./flask
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../blog:/opt/blog
+    command: sleep 100000000000

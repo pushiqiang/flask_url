@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import os
-
 from flask import Flask
 
-from url_resolvers.resolvers import auto_register_urls
+from url_resolvers import auto_register_urls
 
 import settings
 
