@@ -7,4 +7,4 @@ COPY . /opt/docker
 WORKDIR /opt/blog
 
 # 先判断是否在中国，如果在中国，使用镜像下载
-RUN pip install -r /opt/django_deploy/requirements.txt -i https://pypi.doubanio.com/simple --trusted-host pypi.doubanio.com
+RUN pip install -r /opt/docker/requirements.txt -i https://pypi.doubanio.com/simple --trusted-host pypi.doubanio.com

@@ -3,7 +3,7 @@
 from importlib import import_module
 from urllib.parse import urljoin
 
-from exceptions import ImproperlyConfigured
+from url_resolvers.exceptions import ImproperlyConfigured
 
 
 class Router:
@@ -48,17 +48,17 @@ class URLResolver:
 
         return urljoin(base_route.rstrip('^'), route)
 
-    def _resolve(self, route, pattern):
+    def _resolve_pattern(self, route, pattern):
         new_route = self.join_route(route, pattern.route)
         if callable(pattern.view):
-            self.routers.append(Router(new_route, pattern.view, pattern.name))
+            self.routers.append(Router(new_route, pattern.view, pattern.name, **pattern.kwargs))
         elif isinstance(pattern.view, URLInclude):
             for _pattern in pattern.view.patterns:
-                self._resolve(new_route, _pattern)
+                self._resolve_pattern(new_route, _pattern)
 
     def resolve(self):
         for _pattern in self.url_patterns:
-            self._resolve('', _pattern)
+            self._resolve_pattern('', _pattern)
         return self.routers
 
 

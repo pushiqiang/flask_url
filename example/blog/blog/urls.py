@@ -2,7 +2,7 @@
 
 from url_resolvers import url, include
 
-from views import home
+from blog.views import home
 
 
 urlpatterns = [

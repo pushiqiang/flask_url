@@ -5,7 +5,7 @@ from flask import Flask
 
 from url_resolvers import auto_register_urls
 
-import settings
+from blog import settings
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
