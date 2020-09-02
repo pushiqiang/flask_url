@@ -2,5 +2,3 @@
 
 # Django-Style URL Patterns for Flask
 
-代码在blog下
-
